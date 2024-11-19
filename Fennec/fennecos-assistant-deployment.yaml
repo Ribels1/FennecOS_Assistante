@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fennecos-assistant
+  labels:
+    app: fennecos-assistant
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fennecos-assistant
+  template:
+    metadata:
+      labels:
+        app: fennecos-assistant
+    spec:
+      containers:
+      - name: fennecos-assistant
+        image: <your-dockerhub-username>/fennecos-assistant:latest
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        env:
+        - name: OLLAMA_SERVER_URL
+          value: "http://ollama-service:11434"  # Service for  Ollama server
